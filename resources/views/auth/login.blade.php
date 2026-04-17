@@ -43,7 +43,7 @@
             justify-content: center;
             position: relative;
             overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M8 2c-2 0-3 1-3 3v8c0 2 1 3 3 3h16c2 0 3-1 3-3V5c0-2-1-3-3-3H8zm4 4c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm8 0c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm-8 8h16v2H12v-2z" fill="%23C69C6D"/></svg>') 12 8, auto;
+            cursor: url('/image/kursor.cur') 16 16, pointer;
         }
 
         /* Animated background elements */
@@ -109,7 +109,7 @@
         .container {
             width: 100%;
             max-width: 1200px;
-            height: 100vh;
+            height: 90vh;
             max-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -610,45 +610,12 @@
         <!-- Left Section: Branding -->
         <div class="branding-section">
             <div class="branding-content">
-                <!-- Bakery Illustration -->
-                <svg class="brand-illustration" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Bread -->
-                    <g id="bread">
-                        <rect x="80" y="100" width="140" height="120" rx="15" fill="#C69C6D"/>
-                        <line x1="100" y1="110" x2="100" y2="210" stroke="#A27F52" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="150" y1="100" x2="150" y2="220" stroke="#A27F52" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="200" y1="110" x2="200" y2="210" stroke="#A27F52" stroke-width="4" stroke-linecap="round"/>
-                    </g>
-
-                    <!-- Croissant -->
-                    <g id="croissant">
-                        <path d="M50 250C50 270 65 280 80 280C100 280 120 265 130 240" fill="none" stroke="#F5B384" stroke-width="6" stroke-linecap="round"/>
-                        <circle cx="55" cy="265" r="3" fill="#A27F52"/>
-                        <circle cx="75" cy="240" r="3" fill="#A27F52"/>
-                        <circle cx="110" cy="245" r="3" fill="#A27F52"/>
-                    </g>
-
-                    <!-- Cupcake -->
-                    <g id="cupcake">
-                        <path d="M220 260L205 200Q205 180 220 170Q235 180 235 200L220 260Z" fill="#FFD1DC"/>
-                        <circle cx="220" cy="200" r="25" fill="#FDE4A6"/>
-                        <circle cx="210" cy="190" r="4" fill="#C69C6D"/>
-                        <circle cx="230" cy="195" r="4" fill="#C69C6D"/>
-                        <circle cx="220" cy="210" r="4" fill="#C69C6D"/>
-                    </g>
-
-                    <!-- Sparkles -->
-                    <g id="sparkles" opacity="0.7">
-                        <circle cx="60" cy="80" r="2" fill="#F5B384"/>
-                        <circle cx="250" cy="120" r="2" fill="#C69C6D"/>
-                        <circle cx="100" cy="50" r="1.5" fill="#FFD1DC"/>
-                        <circle cx="240" cy="280" r="1.5" fill="#FDE4A6"/>
-                    </g>
-                </svg>
+                <!-- Logo Roti -->
+                <img class="brand-illustration" src="/image/roti.png" alt="Logo Roti" style="object-fit:contain; width:280px; height:280px;" />
 
                 <h1 class="brand-title">Three D Bakery</h1>
-                <p class="brand-subtitle">Freshly baked happiness, just a click away</p>
-                <p class="brand-tagline">Your neighborhood's favorite artisan bakery</p>
+                <p class="brand-subtitle">Kebahagiaan yang baru dipanggang</p>
+                <p class="brand-tagline">Toko roti favorit</p>
             </div>
         </div>
 
@@ -656,24 +623,24 @@
         <div class="login-section">
             <div class="form-container">
                 <div class="form-header">
-                    <h2>Welcome Back</h2>
-                    <p>Sign in to access your account</p>
+                    <h2>Selamat Datang Kembali</h2>
+                    <p>Masuk untuk mengakses akun Anda</p>
                 </div>
 
                 <form id="loginForm" method="POST" action="{{ route('login') }}">
                     @csrf
 
                     <div class="form-group">
-                        <label for="email">Email or Username</label>
-                        <input type="text" id="email" name="email" placeholder="Enter your email or username" required value="{{ old('email') }}">
+                        <label for="email">Email atau Username</label>
+                        <input type="text" id="email" name="email" placeholder="Masukkan email atau username Anda" required value="{{ old('email') }}">
                         @error('email')
                             <span style="color: #C69C6D; font-size: 0.85rem; margin-top: 5px; display: block;">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <label for="password">Kata Sandi</label>
+                        <input type="password" id="password" name="password" placeholder="Masukkan kata sandi Anda" required>
                         @error('password')
                             <span style="color: #C69C6D; font-size: 0.85rem; margin-top: 5px; display: block;">{{ $message }}</span>
                         @enderror
@@ -682,17 +649,17 @@
                     <div class="form-footer">
                         <div class="remember-me">
                             <input type="checkbox" id="remember" name="remember" value="1">
-                            <label for="remember">Remember me</label>
+                            <label for="remember">Ingat saya</label>
                         </div>
-                        <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
+                        <a href="{{ route('password.request') }}" class="forgot-password">Lupa Kata Sandi?</a>
                     </div>
 
-                    <button type="submit" class="login-btn">Login</button>
+                    <button type="submit" class="login-btn">Masuk</button>
                 </form>
 
                 <div class="auth-links">
-                    <span>New here?</span>
-                    <a href="{{ route('register') }}">Create an account</a>
+                    <span>Belum punya?</span>
+                    <a href="{{ route('register') }}">Buat akun</a>
                 </div>
             </div>
         </div>
@@ -734,7 +701,7 @@
             });
 
             el.addEventListener('mouseleave', function () {
-                document.body.style.cursor = 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M8 2c-2 0-3 1-3 3v8c0 2 1 3 3 3h16c2 0 3-1 3-3V5c0-2-1-3-3-3H8zm4 4c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm8 0c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm-8 8h16v2H12v-2z" fill="%23C69C6D"/></svg>\') 12 8, auto';
+                document.body.style.cursor = "url('/image/kursor.png'), auto";
             });
         });
     </script>
