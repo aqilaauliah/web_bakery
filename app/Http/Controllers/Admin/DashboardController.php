@@ -12,28 +12,44 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->role !== 'owner') {
+                abort(403, 'Unauthorized. Admin access only.');
+            }
+            return $next($request);
+        });
+    }
     public function index()
     {
-        // 1. Total Penjualan (Hanya yang status bayarnya 'lunas')
-        $totalPenjualan = Pesanan::where('status_bayar', 'lunas')->sum('total_bayar');
+        // Menggunakan data dummy untuk sekarang
+        // Nanti bisa di-replace dengan query database sebenarnya
+        
+        $totalPenjualan = 45200000; // Dummy data
+        $pesananHariIni = 84;
+        $pesananBelumLunas = 247;
+        $totalPelanggan = 542;
+        $totalProduk = 256;
+        $pesananTerbaru = [];
 
-        // 2. Pesanan Baru Hari Ini
-        $pesananHariIni = Pesanan::whereDate('tgl_pesan', Carbon::today())->count();
-
-        // 3. Pesanan yang Belum Lunas (Perlu tindak lanjut)
-        $pesananBelumLunas = Pesanan::where('status_bayar', 'belum_lunas')->count();
-
-        // 4. Total Pelanggan Terdaftar
-        $totalPelanggan = Pelanggan::count();
-
-        // 5. Total Produk (Menu Roti)
-        $totalProduk = Produk::count();
-
-        // 6. Data Pesanan Terbaru (Limit 5 untuk tabel di dashboard)
-        $pesananTerbaru = Pesanan::with(['pelanggan', 'karyawan'])
-            ->orderBy('tgl_pesan', 'desc')
-            ->take(5)
-            ->get();
+        // Jika ada models dan tables, uncomment code di bawah:
+        /*
+        try {
+            $totalPenjualan = Pesanan::where('status_bayar', 'lunas')->sum('total_bayar');
+            $pesananHariIni = Pesanan::whereDate('tgl_pesan', Carbon::today())->count();
+            $pesananBelumLunas = Pesanan::where('status_bayar', 'belum_lunas')->count();
+            $totalPelanggan = Pelanggan::count();
+            $totalProduk = Produk::count();
+            $pesananTerbaru = Pesanan::with(['pelanggan', 'karyawan'])
+                ->orderBy('tgl_pesan', 'desc')
+                ->take(5)
+                ->get();
+        } catch (\Exception $e) {
+            // Gunakan dummy data jika ada error
+        }
+        */
 
         // Mengirim data ke view admin/dashboard.blade.php
         return view('admin.dashboard', compact(

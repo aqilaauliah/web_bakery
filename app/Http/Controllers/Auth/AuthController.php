@@ -20,40 +20,49 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Validasi: field 'login' bisa diisi email atau username
-        $validated = $request->validate([
-            'login' => ['required', 'string'], 
-            'password' => ['required', 'string'],
+        // Validasi input
+        $request->validate([
+            'login' => 'required|email',
+            'password' => 'required|string',
         ]);
 
-        // Cari user berdasarkan email ATAU username
-        $user = User::where('email', $validated['login'])
-            ->orWhere('username', $validated['login'])
-            ->first();
+        $credentials = [
+            'email' => $request->input('login'),
+            'password' => $request->input('password'),
+        ];
 
-        // Validasi password
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
-            return back()->withErrors([
-                'login' => 'Kredensial yang diberikan tidak cocok dengan data kami.',
-            ])->onlyInput('login');
+        \Log::info('Login attempt with credentials: ', ['email' => $credentials['email']]);
+
+        // Attempt authentication menggunakan attempt() yang lebih sederhana
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $request->session()->regenerate();
+            
+            $user = auth()->user();
+            \Log::info('Login successful for user: ' . $user->email . ' with role: ' . $user->role);
+            
+            // Redirect berdasarkan role
+            if ($user->role === 'owner') {
+                \Log::info('Redirecting owner to admin.dashboard at: ' . route('admin.dashboard'));
+                return redirect(route('admin.dashboard'))
+                    ->with('success', 'Selamat datang kembali, Owner!');
+            }
+            
+            \Log::info('Redirecting customer to customer.dashboard at: ' . route('customer.dashboard'));
+            return redirect(route('customer.dashboard'))
+                ->with('success', 'Selamat datang di Three D Bakery!');
         }
 
-        // Proses Login
-        Auth::login($user, $request->has('remember'));
-
-        // Redirect berdasarkan role (owner atau pelanggan)
-        return $this->authenticated($request, $user);
+        \Log::info('Login failed - invalid credentials');
+        return back()
+            ->withInput($request->only('login'))
+            ->withErrors([
+                'login' => 'Kredensial tidak sesuai dengan data kami.',
+            ]);
     }
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->role === 'owner') {
-            return redirect()->route('admin.dashboard')
-                ->with('success', 'Selamat datang kembali, Owner!');
-        }
-
-        return redirect()->route('customer.dashboard') // Sesuaikan dengan route kamu
-            ->with('success', 'Selamat datang di Three D Bakery!');
+        // Method ini tidak dipakai - redirect dilakukan di login() method
     }
 
     public function showRegistrationForm()
@@ -64,28 +73,17 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'username' => ['required', 'string', 'max:50', 'unique:user,username'],
-            'email' => ['required', 'string', 'email', 'max:100', 'unique:user,email'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'nama' => ['required', 'string', 'max:100'],
-            'no_tlp' => ['nullable', 'string', 'max:15'],
-            'alamat' => ['nullable', 'string'],
         ]);
 
-        // 1. Simpan ke tabel 'user'
+        // Simpan user baru ke tabel 'users'
         $user = User::create([
-            'username' => $validated['username'],
+            'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => 'pelanggan', // Default untuk registrasi web
-        ]);
-
-        // 2. Simpan profil ke tabel 'pelanggan' (Sesuai ERD kamu)
-        Pelanggan::create([
-            'id_user' => $user->id_user,
-            'nama' => $validated['nama'],
-            'no_tlp' => $validated['no_tlp'],
-            'alamat' => $validated['alamat'],
         ]);
 
         event(new Registered($user));

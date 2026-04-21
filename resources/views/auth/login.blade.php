@@ -627,13 +627,28 @@
                     <p>Masuk untuk mengakses akun Anda</p>
                 </div>
 
-                <form id="loginForm" method="POST" action="{{ route('login') }}">
+                <form id="loginForm" method="POST" action="{{ route('login.submit') }}">
                     @csrf
 
+                    @if ($errors->any())
+                    <div style="background: #FFE8E8; border-left: 4px solid #C69C6D; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
+                        <ul style="margin: 0; padding: 0; list-style: none;">
+                            @foreach ($errors->all() as $error)
+                                <li style="color: #C69C6D; font-size: 0.9rem;">• {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    <div id="debugInfo" style="background: #FFF8E1; border: 1px solid #C69C6D; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem; color: #8B6F47; display: none;">
+                        <strong>Debug Info:</strong>
+                        <div id="debugContent"></div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" placeholder="Masukkan username Anda" required value="{{ old('username') }}">
-                        @error('username')
+                        <label for="login">Email</label>
+                        <input type="email" id="login" name="login" placeholder="Masukkan email Anda" required value="{{ old('login') }}">
+                        @error('login')
                             <span style="color: #C69C6D; font-size: 0.85rem; margin-top: 5px; display: block;">{{ $message }}</span>
                         @enderror
                     </div>
@@ -651,7 +666,7 @@
                             <input type="checkbox" id="remember" name="remember" value="1">
                             <label for="remember">Ingat saya</label>
                         </div>
-                        <a href="{{ route('password.request') }}" class="forgot-password">Lupa Kata Sandi?</a>
+                        <a href="#" class="forgot-password" onclick="alert('Fitur lupa password sedang dikembangkan'); return false;">Lupa Kata Sandi?</a>
                     </div>
 
                     <button type="submit" class="login-btn">Masuk</button>
@@ -675,9 +690,38 @@
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', function (e) {
+                e.preventDefault(); // PREVENT default submission to check data first
+                
+                const loginInput = document.getElementById('login').value;
+                const passwordInput = document.getElementById('password').value;
+                const tokenInput = document.querySelector('input[name="_token"]').value;
+                
+                console.log('=== FORM DEBUG ===');
+                console.log('Email:', loginInput);
+                console.log('Password:', passwordInput ? '***' : '(empty)');
+                console.log('CSRF Token:', tokenInput ? tokenInput.substring(0, 20) + '...' : '(missing)');
+                console.log('Form action:', this.action);
+                console.log('Form method:', this.method);
+                
+                // Show debug info
+                const debugDiv = document.getElementById('debugInfo');
+                const debugContent = document.getElementById('debugContent');
+                debugContent.innerHTML = `
+                    <div>Email: <strong>${loginInput}</strong></div>
+                    <div>Token: <strong>${tokenInput ? tokenInput.substring(0, 30) + '...' : '❌ MISSING'}</strong></div>
+                    <div>Status: <strong>Ready to submit</strong></div>
+                `;
+                debugDiv.style.display = 'block';
+                
                 const btn = this.querySelector('.login-btn');
                 btn.style.opacity = '0.8';
                 btn.style.pointerEvents = 'none';
+                btn.textContent = 'Sedang masuk...';
+                
+                // Delay for UX, then submit normally
+                setTimeout(() => {
+                    this.submit(); // NOW submit the form normally
+                }, 500);
             });
         }
 

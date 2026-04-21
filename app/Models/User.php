@@ -11,17 +11,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // Tambahkan ini jika nama tabelmu di database adalah 'user' (singular)
-    protected $table = 'user';
-
-    // Menentukan primary key karena bukan 'id' (default Laravel)
-    protected $primaryKey = 'id_user';
-
     /**
      * Atribut yang dapat diisi secara massal.
      */
     protected $fillable = [
-        'username',
+        'name',
         'email',
         'password',
         'role',
