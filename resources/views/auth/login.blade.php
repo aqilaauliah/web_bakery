@@ -611,7 +611,7 @@
         <div class="branding-section">
             <div class="branding-content">
                 <!-- Logo Roti -->
-                <img class="brand-illustration" src="/image/roti.png" alt="Logo Roti" style="object-fit:contain; width:280px; height:280px;" />
+                <img class="brand-illustration" src="/image/rotibulat.png" alt="Logo Roti" style="object-fit:contain; width:400px; height:400px;" />
 
                 <h1 class="brand-title">Three D Bakery</h1>
                 <p class="brand-subtitle">Kebahagiaan yang baru dipanggang</p>

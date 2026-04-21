@@ -128,8 +128,10 @@ class AuthController extends Controller
             ->causedBy($user)
             ->log('New customer registered');
 
-        return redirect()->route('customer.dashboard')
-            ->with('success', 'Welcome to Three D Bakery! Your account has been created.');
+        // Redirect ke halaman home dan set session flash 'registered' untuk trigger JS
+        return redirect('/')
+            ->with('registered', true)
+            ->with('success', 'Selamat datang di Three D Bakery! Akun Anda berhasil dibuat.');
     }
 
     /**

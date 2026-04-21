@@ -31,9 +31,7 @@ Route::middleware('guest')->group(function () {
         return view('auth.register');
     })->name('register');
 
-    Route::post('/register', function () {
-        return 'Register submitted';
-    });
+    Route::post('/register', [\App\Http\Controllers\Auth\AuthController::class, 'register'])->name('register.submit');
 });
 
 Route::middleware('auth')->group(function () {

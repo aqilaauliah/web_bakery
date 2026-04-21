@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three D Bakery - Register</title>
+    <title>Three D Bakery - Daftar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
             justify-content: center;
             position: relative;
             overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M8 2c-2 0-3 1-3 3v8c0 2 1 3 3 3h16c2 0 3-1 3-3V5c0-2-1-3-3-3H8zm4 4c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm8 0c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm-8 8h16v2H12v-2z" fill="%23C69C6D"/></svg>') 12 8, auto;
+            cursor: auto;
             padding: 20px;
         }
 
@@ -150,6 +150,7 @@
         }
 
         .form-header {
+            margin-top: 30px;
             margin-bottom: 35px;
             text-align: center;
             animation: fade-in 0.8s ease-out;
@@ -502,8 +503,8 @@
         <div class="register-section">
             <div class="form-container">
                 <div class="form-header">
-                    <h2>Join Three D Bakery</h2>
-                    <p>Create your account to start ordering delicious treats</p>
+                    <h2>Bergabung dengan Three D Bakery</h2>
+                    <p>Buat akun Anda untuk mulai memesan makanan lezat</p>
                 </div>
 
                 <form id="registerForm" method="POST" action="{{ route('register') }}">
@@ -511,16 +512,16 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="Enter your full name" required value="{{ old('name') }}">
+                            <label for="name">Username</label>
+                            <input type="text" id="name" name="name" placeholder="Masukkan username Anda" required value="{{ old('name') }}">
                             @error('name')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ old('email') }}">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required value="{{ old('email') }}">
                             @error('email')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
@@ -529,13 +530,13 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+                            <label for="password">Kata Sandi</label>
+                            <input type="password" id="password" name="password" placeholder="Buat kata sandi yang kuat" required>
                             <div class="password-strength">
                                 <div class="strength-bar">
                                     <div class="strength-fill"></div>
                                 </div>
-                                <span id="strengthText">Strength: None</span>
+                                <span id="strengthText">Kekuatan: Tidak Ada</span>
                             </div>
                             @error('password')
                                 <span class="error-message">{{ $message }}</span>
@@ -543,8 +544,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password_confirmation">Confirm Password</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" required>
+                            <label for="password_confirmation">Konfirmasi Kata Sandi</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi kata sandi Anda" required>
                             @error('password_confirmation')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
@@ -552,28 +553,22 @@
                     </div>
 
                     <div class="form-row full">
-                        <div class="form-group">
-                            <label for="phone">Phone Number (Optional)</label>
-                            <input type="text" id="phone" name="phone" placeholder="(123) 456-7890" value="{{ old('phone') }}">
-                            @error('phone')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <!-- Nomor Telepon dihapus sesuai permintaan -->
                     </div>
 
                     <div class="terms-agreement">
                         <input type="checkbox" id="terms" name="terms" required>
                         <label for="terms" class="terms-text">
-                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                            Saya setuju dengan <a href="#">Syarat Layanan</a> dan <a href="#">Kebijakan Privasi</a>
                         </label>
                     </div>
 
-                    <button type="submit" class="register-btn">Create Account</button>
+                    <button type="submit" class="register-btn">Daftar Akun</button>
                 </form>
 
                 <div class="auth-links">
-                    <span>Already have an account?</span>
-                    <a href="{{ route('login') }}">Sign in</a>
+                    <span>Sudah punya akun?</span>
+                    <a href="{{ route('login') }}">Masuk</a>
                 </div>
             </div>
         </div>
@@ -600,8 +595,8 @@
             const percentage = (strength / 5) * 100;
             strengthFill.style.width = percentage + '%';
 
-            const strengthLevels = ['None', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
-            strengthText.textContent = 'Strength: ' + strengthLevels[strength];
+            const strengthLevels = ['Tidak Ada', 'Lemah', 'Cukup', 'Baik', 'Kuat', 'Sangat Kuat'];
+            strengthText.textContent = 'Kekuatan: ' + strengthLevels[strength];
 
             strengthFill.className = 'strength-fill';
             if (strength === 1) strengthFill.classList.add('strength-weak');
@@ -617,7 +612,7 @@
                 const btn = this.querySelector('.register-btn');
                 btn.style.opacity = '0.8';
                 btn.style.pointerEvents = 'none';
-                btn.textContent = 'Creating Account...';
+                btn.textContent = 'Mendaftarkan Akun...';
             });
         }
 
@@ -633,18 +628,6 @@
             });
         });
 
-        // Custom cursor on hover of interactive elements
-        const interactiveElements = document.querySelectorAll('button, a, input, label');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', function () {
-                document.body.style.cursor = 'pointer';
-            });
-
-            el.addEventListener('mouseleave', function () {
-                document.body.style.cursor = 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M8 2c-2 0-3 1-3 3v8c0 2 1 3 3 3h16c2 0 3-1 3-3V5c0-2-1-3-3-3H8zm4 4c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm8 0c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm-8 8h16v2H12v-2z" fill="%23C69C6D"/></svg>\') 12 8, auto';
-            });
-        });
-
         // Form field validation feedback
         document.addEventListener('DOMContentLoaded', function () {
             inputs.forEach(input => {
@@ -655,6 +638,11 @@
                 });
             });
         });
+
+        // Redirect ke halaman home setelah register sukses
+        @if (session('registered'))
+            window.location.href = '/';
+        @endif
     </script>
 </body>
 
