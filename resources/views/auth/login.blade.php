@@ -631,9 +631,9 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="email">Email atau Username</label>
-                        <input type="text" id="email" name="email" placeholder="Masukkan email atau username Anda" required value="{{ old('email') }}">
-                        @error('email')
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Masukkan username Anda" required value="{{ old('username') }}">
+                        @error('username')
                             <span style="color: #C69C6D; font-size: 0.85rem; margin-top: 5px; display: block;">{{ $message }}</span>
                         @enderror
                     </div>

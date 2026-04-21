@@ -512,9 +512,9 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="name">Username</label>
-                            <input type="text" id="name" name="name" placeholder="Masukkan username Anda" required value="{{ old('name') }}">
-                            @error('name')
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="Masukkan username Anda" required value="{{ old('username') }}">
+                            @error('username')
                                 <span class="error-message">{{ $message }}</span>
                             @enderror
                         </div>
